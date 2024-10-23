@@ -27,11 +27,18 @@ export default function SignInPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log('Sign in with:', email, password)
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+        await signIn("credentials", { email, password });
+        // Handle successful sign-in
+    } catch (error) {
+        console.log("Error signing in:", error); // Utilize the error variable
+    } finally {
+        setIsLoading(false);
+    }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
