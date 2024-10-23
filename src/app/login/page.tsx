@@ -20,7 +20,7 @@ export default function SignInPage() {
 
     try {
       await signIn("google");
-    } catch (error) {
+    } catch (error: any) {
       console.log("There was an error logging in with Google");
     } finally {
       setIsLoading(false);
