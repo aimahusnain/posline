@@ -20,7 +20,7 @@ export default function Home() {
           powerful solution.
         </p>
         <Link href="/dashboard">
-          <Button className="text-lg font-bold py-5 px-8">Let's Start!</Button>
+          <Button className="text-lg font-bold py-5 px-8">Let&apos;s Start!</Button>
         </Link>
       </div>
       {/* Image Section */}

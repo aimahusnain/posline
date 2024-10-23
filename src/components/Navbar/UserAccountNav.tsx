@@ -13,22 +13,29 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
+// Allow null for properties in User
+interface User {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 interface UserAccountNavProps {
-  user: any | undefined;
+  user: User | undefined; // User type includes undefined
 }
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
   const logoutWithGoogle = async () => {
     try {
       await signOut();
-    } catch (error) {
-      console.log("There was an error logging in with Google");
+    } catch (err) {
+      console.error("There was an error logging out:", err);
     }
   };
 
-  const imageUrl = user.image;
-  const name = user.name;
-  const email = user.email;
+  const imageUrl = user?.image; // Optional chaining to safely access image
+  const name = user?.name; // Optional chaining to safely access name
+  const email = user?.email; // Optional chaining to safely access email
 
   return (
     <DropdownMenu>
@@ -76,7 +83,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
           >
             <LogOut className="w-4 h-4" />
             <span>Log Out</span>
-          </Button>{" "}
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

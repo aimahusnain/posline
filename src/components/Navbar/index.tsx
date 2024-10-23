@@ -45,7 +45,7 @@ export default function Navbar() {
     try {
       await signIn("google");
     } catch (error) {
-      console.log("There was an error logging in with Google");
+      console.error("There was an error logging in with Google:", error); // Log the error
     } finally {
       setIsLoading(false);
     }
@@ -90,17 +90,13 @@ export default function Navbar() {
             </NavigationMenu>
           </div>
           <div className="hidden md:flex items-center space-x-4">
-          {!session ? (
+            {!session ? (
               <>
-              <Link
-              href="/login"
-              >
-                <Button
-                         
-                          className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105">
-                  Sign Up
-                </Button>
-                  </Link>
+                <Link href="/login">
+                  <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105">
+                    Sign Up
+                  </Button>
+                </Link>
                 <Button
                   variant="outline"
                   onClick={loginWithGoogle}
@@ -154,9 +150,10 @@ export default function Navbar() {
             {!session ? (
               <>
                 <Button 
-                          onClick={loginWithGoogle}
-                          disabled={isLoading}
-                className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105">
+                  onClick={loginWithGoogle}
+                  disabled={isLoading}
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
                   Sign Up
                 </Button>
                 <Button

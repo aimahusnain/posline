@@ -3,6 +3,17 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { nanoid } from "nanoid";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
+
+// Define the User type, if you have a custom user model
+interface User {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  username?: string | null;
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -19,17 +30,16 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }: any) {
-      if (token) {
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture;
-      }
-
+    async session({ token, session }: { token: JWT; session: Session }) {
+      if (session.user) {
+        session.user.name = token.name ?? null;
+        session.user.email = token.email ?? null;
+        session.user.image = token.picture ?? null;
+    }    
       return session;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
@@ -37,7 +47,7 @@ export const authOptions: NextAuthOptions = {
       });
 
       if (!dbUser) {
-        token.id = user!.id;
+        token.id = user?.id; // Use optional chaining here
         return token;
       }
 

@@ -9,7 +9,7 @@ export default function NotFound() {
         <div className="space-y-4">
           <h1 className="text-6xl font-extrabold text-blue-600">404</h1>
           <h2 className="text-3xl font-bold text-gray-900">Page Not Found</h2>
-          <p className="text-xl text-gray-600">Oops! Looks like this transaction didn't go through.</p>
+          <p className="text-xl text-gray-600">Oops! Looks like this transaction didn&apos;t go through.</p>
         </div>
 
         <div className="flex justify-center space-x-4">
@@ -22,7 +22,7 @@ export default function NotFound() {
         </div>
 
         <p className="text-gray-600">
-          Don't worry, your account balance is safe. Let's get you back to a working page.
+          Don&apos;t worry, your account balance is safe. Let&apos;s get you back to a working page.
         </p>
 
         <div className="space-y-4">
