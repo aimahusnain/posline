@@ -33,8 +33,8 @@ export default function SignInPage() {
     try {
         await signIn("credentials", { email, password });
         // Handle successful sign-in
-    } catch (error) {
-        console.log("Error signing in:", error); // Utilize the error variable
+    } catch {
+        console.log("Error signing in"); // No need for the error variable
     } finally {
         setIsLoading(false);
     }
