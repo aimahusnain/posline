@@ -24,7 +24,7 @@ import {
   SquareTerminal,
   Trash2,
 } from "lucide-react"
-import * as React from "react"
+import React, { ReactNode } from 'react';
 
 import {
   Avatar,
@@ -66,7 +66,11 @@ import {
 } from "@/components/ui/sidebar"
 import { signOut, useSession } from "next-auth/react"
 
-export default function SidebarPageTemplate({children}: any) {
+interface SidebarPageTemplateProps {
+  children: ReactNode;
+}
+
+export default function SidebarPageTemplate({ children }: SidebarPageTemplateProps) {
   const { data: session } = useSession();
   const signeduser = session?.user;
   const userName = signeduser?.name;
