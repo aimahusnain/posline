@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import Navbar from '@/components/Navbar'
 
 export default function SignInPage() {
   const [email, setEmail] = useState('')
@@ -32,15 +33,16 @@ export default function SignInPage() {
     setIsLoading(true);
     try {
         await signIn("credentials", { email, password });
-        // Handle successful sign-in
     } catch {
-        console.log("Error signing in"); // No need for the error variable
+        console.log("Error signing in");
     } finally {
         setIsLoading(false);
     }
 }
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="w-full max-w-md space-y-8">
         <div className="bg-white shadow-2xl rounded-3xl overflow-hidden">
@@ -165,5 +167,7 @@ export default function SignInPage() {
         </p>
       </div>
     </div>
+    </>
+
   )
 }

@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import { CreditCard, Home, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import Navbar from '@/components/Navbar'
 
 export default function NotFound() {
   return (
+    <>
+          <Navbar />
+    
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="space-y-4">
@@ -44,5 +48,7 @@ export default function NotFound() {
         <p>&copy; {new Date().getFullYear()} Posline. All rights reserved.</p>
       </footer>
     </div>
+    </>
+
   )
 }

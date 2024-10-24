@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   AudioWaveform,
   BadgeCheck,
@@ -25,20 +24,13 @@ import {
   SquareTerminal,
   Trash2,
 } from "lucide-react"
+import * as React from "react"
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import {
   Collapsible,
   CollapsibleContent,
@@ -54,7 +46,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
 import {
   Sidebar,
   SidebarContent,
@@ -71,16 +62,18 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarProvider,
-  SidebarRail,
-  SidebarTrigger,
+  SidebarRail
 } from "@/components/ui/sidebar"
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+import { signOut, useSession } from "next-auth/react"
+
+export default function SidebarPageTemplate({children}: any) {
+  const { data: session } = useSession();
+  const signeduser = session?.user;
+  const userName = signeduser?.name;
+  const userEmail = signeduser?.email;
+  const userImage = signeduser?.image;
+
+  const data = {
   teams: [
     {
       name: "Acme Inc",
@@ -100,14 +93,37 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Product",
       url: "#",
-      icon: SquareTerminal,
+      icon: Bot,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Product List",
           url: "#",
+        },
+        {
+          title: "Categories",
+          url: "#",
+        },
+        {
+          title: "Modifiers",
+          url: "#",
+        },
+        {
+          title: "Measurements",
+          url: "/dashboard/products/measurements",
+        },
+      ],
+    },
+    {
+      title: "Reports",
+      url: "#",
+      icon: SquareTerminal,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard",
         },
         {
           title: "Starred",
@@ -120,26 +136,7 @@ const data = {
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
+      title: "Customer",
       url: "#",
       icon: BookOpen,
       items: [
@@ -204,8 +201,15 @@ const data = {
   ],
 }
 
-export default function Page() {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0])
+
+  const logoutWithGoogle = async () => {
+    try {
+      await signOut();
+    } catch (err) {
+      console.error("There was an error logging out:", err);
+    }
+  };
 
   return (
     <SidebarProvider>
@@ -366,17 +370,17 @@ export default function Page() {
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage
-                        src={data.user.avatar}
-                        alt={data.user.name}
+                        src={userImage || undefined}
+                        alt={userName || undefined}
                       />
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {data.user.name}
+                        {userName}
                       </span>
                       <span className="truncate text-xs">
-                        {data.user.email}
+                        {userEmail}
                       </span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
@@ -392,8 +396,8 @@ export default function Page() {
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
                         <AvatarImage
-                          src={data.user.avatar}
-                          alt={data.user.name}
+                          src={userImage || undefined}
+                          alt={userName || undefined}
                         />
                         <AvatarFallback className="rounded-lg">
                           CN
@@ -401,10 +405,10 @@ export default function Page() {
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
-                          {data.user.name}
+                          {userName}
                         </span>
                         <span className="truncate text-xs">
-                          {data.user.email}
+                          {userEmail}
                         </span>
                       </div>
                     </div>
@@ -432,7 +436,7 @@ export default function Page() {
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={logoutWithGoogle}>
                     <LogOut />
                     Log out
                   </DropdownMenuItem>
@@ -444,7 +448,8 @@ export default function Page() {
         <SidebarRail />
       </Sidebar>
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+       {children}
+        {/* <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -470,7 +475,7 @@ export default function Page() {
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        </div>
+        </div> */}
       </SidebarInset>
     </SidebarProvider>
   )

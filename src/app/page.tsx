@@ -1,9 +1,12 @@
+import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main>
+          <Navbar />
+
       {/* Text Section */}
       <div className="z-10 text-center flex items-center justify-center gap-4 flex-col mt-16 md:mt-40 px-4 md:px-0">
         <span className="uppercase font-sans font-semibold px-3 py-2 rounded-2xl shadow-md">
